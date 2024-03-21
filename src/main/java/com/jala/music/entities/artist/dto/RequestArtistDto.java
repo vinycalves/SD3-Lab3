@@ -5,5 +5,5 @@ import jakarta.validation.constraints.Past;
 
 import java.util.Date;
 
-public record CreateRequestArtistDto(@NotNull String name, @Past Date birthdate) {
+public record RequestArtistDto(@NotNull String name, @Past Date birthdate) {
 }
