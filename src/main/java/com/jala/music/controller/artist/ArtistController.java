@@ -2,6 +2,7 @@ package com.jala.music.controller.artist;
 
 import com.jala.music.entities.artist.Artist;
 import com.jala.music.entities.artist.dto.RequestArtistDto;
+import com.jala.music.entities.artist.dto.ResponseArtistDto;
 import com.jala.music.services.artist.ArtistService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,22 +20,22 @@ public class ArtistController {
     private ArtistService artistService;
 
     @GetMapping
-    public ResponseEntity<List<Artist>> getAllArtists() {
+    public ResponseEntity<List<ResponseArtistDto>> getAllArtists() {
         return ResponseEntity.status(HttpStatus.FOUND).body(artistService.getAllArtists());
     }
 
     @GetMapping("{artistID}")
-    public ResponseEntity<Artist> readArtist(@PathVariable("artistID") UUID uuid) {
+    public ResponseEntity<ResponseArtistDto> readArtist(@PathVariable("artistID") UUID uuid) {
         return ResponseEntity.status(HttpStatus.OK).body(artistService.getArtist(uuid));
     }
 
     @PostMapping
-    public ResponseEntity<Artist> createArtist(@RequestBody @Valid RequestArtistDto artistDto) {
+    public ResponseEntity<ResponseArtistDto> createArtist(@RequestBody @Valid RequestArtistDto artistDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(artistService.createArtist(artistDto));
     }
 
     @PostMapping(path = "/lot")
-    public ResponseEntity<List<Artist>> createLotArtists(@RequestBody @Valid List<RequestArtistDto> artistDtos) {
+    public ResponseEntity<List<ResponseArtistDto>> createLotArtists(@RequestBody @Valid List<RequestArtistDto> artistDtos) {
         return ResponseEntity.status(HttpStatus.CREATED).body(artistService.createArtists(artistDtos));
     }
 
@@ -46,7 +47,7 @@ public class ArtistController {
     }
 
     @PutMapping("{artistID}")
-    public ResponseEntity<Artist> updateArtist(@PathVariable("artistID") UUID uuid, @RequestBody @Valid RequestArtistDto artistDto) {
+    public ResponseEntity<ResponseArtistDto> updateArtist(@PathVariable("artistID") UUID uuid, @RequestBody @Valid RequestArtistDto artistDto) {
         System.out.println(artistDto);
         return ResponseEntity.status(HttpStatus.OK).body(artistService.updateArtist(uuid, artistDto));
     }

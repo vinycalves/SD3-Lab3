@@ -2,6 +2,7 @@ package com.jala.music.services.artist;
 
 import com.jala.music.entities.artist.Artist;
 import com.jala.music.entities.artist.dto.RequestArtistDto;
+import com.jala.music.entities.artist.dto.ResponseArtistDto;
 import com.jala.music.repositories.artist.ArtistRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,23 +18,28 @@ public class ArtistService {
     @Autowired
     private ArtistRepository artistRepository;
 
-    public Artist getArtist(UUID uuid) {
-        if (artistRepository.findById(uuid).isPresent()) return artistRepository.findById(uuid).get();
+    public ResponseArtistDto getArtist(UUID uuid) {
+        if (artistRepository.findById(uuid).isPresent()) {
+            var artist = artistRepository.findById(uuid).get();
+            return ResponseArtistDto.builder().name(artist.getName()).birthdate(artist.getBirthdate()).build();
+        }
         return null;
     }
 
-    public List<Artist> getAllArtists() {
-        return artistRepository.findAll();
+    public List<ResponseArtistDto> getAllArtists() {
+        return artistRepository.findAll().stream().map(artist -> ResponseArtistDto.builder().name(artist.getName()).birthdate(artist.getBirthdate()).build()).toList();
     }
 
-    public Artist createArtist(RequestArtistDto artistDto) {
+    public ResponseArtistDto createArtist(RequestArtistDto artistDto) {
         var artist = Artist.builder().name(artistDto.name()).birthdate(artistDto.birthdate()).build();
-        return artistRepository.save(artist);
+        var savedArtist = artistRepository.save(artist);
+        return ResponseArtistDto.builder().name(savedArtist.getName()).birthdate(savedArtist.getBirthdate()).build();
     }
 
-    public List<Artist> createArtists(List<RequestArtistDto> artistsDto) {
+    public List<ResponseArtistDto> createArtists(List<RequestArtistDto> artistsDto) {
         var artists = artistsDto.stream().map(artistDto -> Artist.builder().name(artistDto.name()).birthdate(artistDto.birthdate()).build()).toList();
-        return artistRepository.saveAll(artists);
+        var artistsSaved = artistRepository.saveAll(artists);
+        return artistsSaved.stream().map(artist -> ResponseArtistDto.builder().name(artist.getName()).birthdate(artist.getBirthdate()).build()).toList();
     }
 
     public boolean deleteArtist(UUID uuid) {
@@ -45,7 +51,7 @@ public class ArtistService {
     }
 
     @Transactional
-    public Artist updateArtist(UUID artistUUID, RequestArtistDto artistDto) {
+    public ResponseArtistDto updateArtist(UUID artistUUID, RequestArtistDto artistDto) {
         var artist = artistRepository.findById(artistUUID).orElseThrow(() -> new IllegalStateException("This artist ID" + artistUUID + "doesn't exist!"));
 
         if (!Objects.equals(artist.getName(), artistDto.name())) {
@@ -54,6 +60,6 @@ public class ArtistService {
         if (!Objects.equals(artist.getBirthdate(), artistDto.birthdate())) {
             artist.setBirthdate(artistDto.birthdate());
         }
-        return artist;
+        return ResponseArtistDto.builder().name(artist.getName()).birthdate(artist.getBirthdate()).build();
     }
 }

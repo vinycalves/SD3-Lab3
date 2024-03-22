@@ -20,12 +20,12 @@ public class MusicController {
     private MusicService musicService;
 
     @GetMapping
-    public ResponseEntity<List<Music>> getAllMusics() {
+    public ResponseEntity<List<ResponseMusicDto>> getAllMusics() {
         return ResponseEntity.status(HttpStatus.FOUND).body(musicService.getAllMusics());
     }
 
     @GetMapping("{musicID}")
-    public ResponseEntity<Music> getMusic(@PathVariable("musicID") UUID uuid) {
+    public ResponseEntity<ResponseMusicDto> getMusic(@PathVariable("musicID") UUID uuid) {
         return ResponseEntity.status(HttpStatus.OK).body(musicService.getMusic(uuid));
     }
 
