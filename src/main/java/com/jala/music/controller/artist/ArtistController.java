@@ -48,7 +48,6 @@ public class ArtistController {
 
     @PutMapping("{artistID}")
     public ResponseEntity<ResponseArtistDto> updateArtist(@PathVariable("artistID") UUID uuid, @RequestBody @Valid RequestArtistDto artistDto) {
-        System.out.println(artistDto);
         return ResponseEntity.status(HttpStatus.OK).body(artistService.updateArtist(uuid, artistDto));
     }
 }
