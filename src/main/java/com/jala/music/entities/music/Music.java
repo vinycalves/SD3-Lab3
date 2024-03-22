@@ -19,13 +19,13 @@ import java.util.Set;
 @Table(name = "TB_MUSICS")
 public class Music extends AbstractEntity {
     @Column(name = "NM_TITLE")
-    public String title;
+    private String title;
     @Enumerated(value = EnumType.STRING)
     @Column(name = "DS_GENRE")
-    public MusicGenre genre;
+    private MusicGenre genre;
     @Column(name = "NM_DURATION", precision = 5, scale = 2)
-    public BigDecimal duration;
+    private BigDecimal duration;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ARTIST_ID")
-    public Artist artist;
+    private Artist artist;
 }

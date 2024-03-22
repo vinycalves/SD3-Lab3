@@ -7,5 +7,5 @@ import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public record RequestMusicDto(@NotNull String title, @NotNull MusicGenre musicGenre, @Positive BigDecimal duration, @NotNull UUID artistUUID) {
+public record ResponseMusicDto(@NotNull String title, @NotNull MusicGenre musicGenre, @Positive BigDecimal duration, @NotNull UUID artistUUID) {
 }

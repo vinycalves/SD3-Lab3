@@ -17,9 +17,9 @@ import java.util.Set;
 @Table(name = "TB_ARTISTS")
 public class Artist extends AbstractEntity {
     @Column(name = "NM_ARTIST")
-    public String name;
+    private String name;
     @Column(name = "DT_BIRTH_DATE")
-    public Date birthdate;
+    private Date birthdate;
     @OneToMany(mappedBy = "artist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Music> musics;
 }
